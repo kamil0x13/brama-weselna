@@ -9,8 +9,7 @@ export const tasks = [
   instructions: [
     "Jak ma na imię panna młoda?",
     "Jaka jest data urodzenia Katarzyny?",
-    "Jaki jest cel podróży?",
-    "Odpowiedz na jedno pytanie kontrolne od operatora."
+    "Jaki jest cel podróży?"
   ]
 },
   {
@@ -22,7 +21,6 @@ export const tasks = [
     visualText: "Minimum 2 z 3 odpowiedzi uznane przez komisję.",
     instructions: [
       "Operator zadaje 3 krótkie pytania o Katarzynę.",
-      "Np. ulubione jedzenie, miejsce poznania, pierwszy wspólny wyjazd.",
       "Minimum 2 poprawne odpowiedzi = test zaliczony."
     ]
   },
