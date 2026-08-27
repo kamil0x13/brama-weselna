@@ -1,0 +1,10 @@
+{
+  "name": "RCS — Panel Operatora",
+  "short_name": "RCS Operator",
+  "start_url": "./operator.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#06090b",
+  "theme_color": "#06090b",
+  "orientation": "portrait"
+}
