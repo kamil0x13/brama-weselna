@@ -1,17 +1,18 @@
 export const tasks = [
-  {
-    title: "IDENTYFIKACJA MASZYNISTY",
-    short: "Weryfikacja danych Marcina",
-    subtitle: "System wymaga potwierdzenia tożsamości maszynisty.",
-    icon: "🪪",
-    visualTitle: "WERYFIKACJA MASZYNISTY",
-    visualText: "Operator sprawdza dane i wydaje zgodę na przejście dalej.",
-    instructions: [
-      "Podaj pełne imię panny młodej.",
-      "Podaj datę ślubu.",
-      "Odpowiedz na jedno pytanie kontrolne od operatora."
-    ]
-  },
+ {
+  title: "IDENTYFIKACJA MASZYNISTY",
+  short: "Weryfikacja danych Marcina",
+  subtitle: "System wymaga potwierdzenia tożsamości maszynisty.",
+  icon: "🪪",
+  visualTitle: "WERYFIKACJA MASZYNISTY",
+  visualText: "Operator sprawdza dane i wydaje zgodę na przejście dalej.",
+  instructions: [
+    "Jak ma na imię panna młoda?",
+    "Jaka jest data urodzenia Katarzyny?",
+    "Jaki jest cel podróży?",
+    "Odpowiedz na jedno pytanie kontrolne od operatora."
+  ]
+},
   {
     title: "TEST WIEDZY O KATARZYNIE",
     short: "3 pytania kontrolne",
