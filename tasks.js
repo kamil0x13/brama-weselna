@@ -8,7 +8,7 @@ export const tasks = [
   visualText: "Operator sprawdza dane i wydaje zgodę na przejście dalej.",
   instructions: [
     "Jak ma na imię panna młoda?",
-    "Jaka jest data urodzenia Katarzyny?",
+    "Jaka jest data urodzenia panny młodej?",
     "Jaki jest cel podróży?"
   ]
 },
