@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#06090b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>RCS — Katarzyna & Marcin</title>
+<style>
+:root{--bg:#06090b;--p:#0e1317;--p2:#12191e;--line:#2b363e;--txt:#edf2f6;--mut:#93a0aa;--red:#ff4036;--green:#68e23f;--amber:#ffb300}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--txt);font-family:Arial,Helvetica,sans-serif}
+body{padding:10px}.app{max-width:1500px;margin:auto}
+.panel{border:1px solid var(--line);border-radius:9px;background:linear-gradient(180deg,var(--p2),var(--p));overflow:hidden}
+.top{display:grid;grid-template-columns:1.5fr 1fr .55fr;gap:8px}
+.top>div{padding:15px 18px}.brand{font-size:25px;font-weight:900}.sub{color:#aab4bc;font-size:12px;margin-top:5px}
+.names b{display:block;color:var(--amber);font-size:25px;margin-top:4px}.clock{text-align:center;font-size:24px;font-weight:900}
+.layout{display:grid;grid-template-columns:340px minmax(0,1fr) 350px;gap:9px;margin-top:9px}
+.title{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--green);font-size:13px;letter-spacing:.6px}
+.steps{padding:9px}.step{display:grid;grid-template-columns:48px 1fr 65px;gap:8px;align-items:center;padding:12px 9px;border:1px solid var(--line);border-radius:7px;margin-bottom:8px;opacity:.48}
+.step.active{opacity:1;border-color:var(--red)}.step.done{opacity:1;border-color:#306b2a}.step.fail{opacity:1;border-color:#8b2520}
+.num{font-size:25px;font-weight:900;color:#7e8a93}.active .num{color:var(--red)}.done .num{color:var(--green)}
+.nm{font-size:13px;font-weight:800}.ds{font-size:11px;color:#a9b2ba;margin-top:4px}.st{text-align:right;font-size:10px}.done .st{color:var(--green)}.active .st{color:var(--red)}
+.banner{padding:17px;margin-bottom:9px;border:1px solid #722a25;border-radius:9px;background:linear-gradient(90deg,#1b0d0d,#101418);display:flex;justify-content:space-between;align-items:center}
+.banner h1{color:var(--red);font-size:31px;margin:3px 0}.banner .lock{font-size:48px}
+.task{padding:16px}.head{display:flex;gap:12px}.idx{border:1px solid var(--red);color:var(--red);padding:7px 10px;border-radius:7px;font-size:23px;font-weight:900}
+.task h2{color:var(--red);margin:0;font-size:23px}.task p{color:#c2cbd2}
+.taskGrid{display:grid;grid-template-columns:1fr 300px;gap:14px;margin-top:12px}.box{border:1px solid var(--line);border-radius:8px;background:#090d10;padding:16px}
+.box h3{color:var(--amber);font-size:12px;margin:0 0 12px}.box li{margin:10px 0;line-height:1.35}
+.visual{border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;text-align:center;min-height:270px;padding:20px;background:repeating-linear-gradient(135deg,#13191d 0,#13191d 12px,#0d1114 12px,#0d1114 24px)}
+.visual .ico{font-size:76px}.visual strong{display:block;font-size:19px;margin:12px 0}.visual small{color:#aeb8bf}
+.sys{padding:9px 14px}.row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #222b31;font-size:13px}.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
+.log{height:278px;overflow:auto;padding:12px 14px;font:12px ui-monospace,SFMono-Regular,Consolas,monospace}.log div{margin:0 0 8px}.time{color:#77848d;margin-right:8px}
+.bottom{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:9px;margin-top:9px}.bottom>section{padding:14px}.bottom h3{margin:0 0 9px;color:var(--amber);font-size:13px}.pay{font-size:22px;color:var(--red);font-weight:900}
+.auth{width:100%;padding:17px;border-radius:9px;border:2px solid #3e4850;background:#1d2327;color:#77838b;font-size:21px;font-weight:900;touch-action:none;user-select:none}.auth.ready{background:#205f1e;border-color:#61c249;color:#fff}
+.net{position:fixed;right:14px;bottom:14px;padding:8px 11px;border-radius:20px;background:#151b20;border:1px solid var(--line);font-size:11px;z-index:5}.net.on{color:var(--green)}.net.off{color:var(--red)}
+.overlay{position:fixed;inset:0;background:rgba(2,8,3,.97);display:none;align-items:center;justify-content:center;padding:20px;z-index:20;text-align:center}.overlay.show{display:flex}.card{max-width:850px;border:2px solid var(--green);border-radius:16px;padding:42px;background:#071007}.card .light{font-size:86px}.card h1{font-size:43px;color:var(--green);margin:10px}.card .who{font-size:28px;color:var(--amber);font-weight:900}.card p{font-size:20px;line-height:1.55}
+@media(max-width:1050px){.layout{grid-template-columns:280px 1fr}.right{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:9px}.taskGrid{grid-template-columns:1fr}.visual{min-height:180px}.bottom{grid-template-columns:1fr}.top{grid-template-columns:1fr 1fr}.clock{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="panel"><div class="brand">🚆 RCS — RAILWAY CONTROL SYSTEM</div><div class="sub">SYSTEM STEROWANIA RUCHEM MAŁŻEŃSKIM</div></div>
+    <div class="panel names"><div class="sub">WĘZEŁ</div><b>KATARZYNA & MARCIN</b><div class="sub">ŚLUB → WESELE → WSPÓLNE ŻYCIE</div></div>
+    <div class="panel clock"><span id="clock"></span><div class="sub" id="date"></div></div>
+  </div>
+
+  <div class="layout">
+    <section class="panel"><div class="title">PROCEDURA UZYSKANIA ZEZWOLENIA</div><div class="steps" id="steps"></div></section>
+
+    <main>
+      <div class="banner"><div><div class="sub">STATUS PRZEJAZDU</div><h1 id="status">PRZEJAZD ZABLOKOWANY</h1><div id="statusSub">BRAK ZEZWOLENIA NA PRZEJAZD</div></div><div class="lock" id="lockIcon">🔒</div></div>
+      <section class="panel">
+        <div class="title">AKTUALNY KROK</div>
+        <div class="task">
+          <div class="head"><div class="idx" id="idx">01</div><div><h2 id="taskTitle"></h2><p id="subtitle"></p></div></div>
+          <div class="taskGrid">
+            <div class="box"><h3>TWOJE ZADANIE</h3><ul id="instructions"></ul></div>
+            <div class="visual" id="visual"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <section class="panel"><div class="title">STATUS SYSTEMÓW</div><div class="sys">
+        <div class="row"><span>PLC – SZAFA STEROWNICZA</span><b class="ok">● ONLINE</b></div>
+        <div class="row"><span>SYSTEM ŁĄCZNOŚCI</span><b class="ok">● ONLINE</b></div>
+        <div class="row"><span>SYGNALIZACJA</span><b id="signal" class="bad">● NIEAKTYWNA</b></div>
+        <div class="row"><span>BLOKADA PRZEJAZDU</span><b id="block" class="bad">● AKTYWNA</b></div>
+        <div class="row"><span>ZASILANIE 24V DC</span><b class="ok">● OK</b></div>
+      </div></section>
+      <section class="panel" style="margin-top:9px"><div class="title">DZIENNIK ZDARZEŃ</div><div class="log" id="log"></div></section>
+    </aside>
+  </div>
+
+  <div class="bottom">
+    <section class="panel"><h3>INFORMACJE O POCIĄGU</h3>POCIĄG: <b>NOWOŻEŃCY</b><br>MASZYNISTA: <b>MARCIN</b><br>RELACJA: <b>KAWALER → MĄŻ</b><br>TRASA: <b>ŚLUB → WESELE → WSPÓLNE ŻYCIE</b></section>
+    <section class="panel"><h3>OPŁATA ZA PRZEJAZD</h3><div class="pay" id="pay">NIE OPŁACONO</div><div class="sub">Wymagany pakiet serwisowy • dobre humory • coś na rozruch</div></section>
+    <section class="panel"><h3>AUTORYZACJA SYSTEMU</h3><button class="auth" id="auth" disabled>AUTORYZACJA ZABLOKOWANA</button><div class="sub">Po akceptacji wszystkich etapów przytrzymaj 3 sekundy.</div></section>
+  </div>
+</div>
+
+<div class="net off" id="net">● ŁĄCZENIE…</div>
+<div class="overlay" id="overlay"><div class="card"><div class="light">🟢</div><div class="who">KATARZYNA & MARCIN</div><h1>ZEZWOLENIE NA PRZEJAZD WYDANE</h1><p>Wszystkie systemy sprawne.<br>Blokada przejazdu zwolniona.<br><br>Kierunek: <b>WSPÓLNE ŻYCIE</b><br>Ważność: <b>BEZTERMINOWA ❤️</b></p></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import { firebaseConfig, roomId } from "./config.js";
+import { tasks, initialState } from "./tasks.js";
+
+const db = getDatabase(initializeApp(firebaseConfig));
+const stateRef = ref(db, `weddingGate/${roomId}`);
+let state = structuredClone(initialState);
+const $ = id => document.getElementById(id);
+
+function ts(){ return new Date().toLocaleTimeString("pl-PL",{hour12:false}); }
+function render(){
+  const cur = Math.min(Math.max(Number(state.currentStep)||0,0),tasks.length-1);
+  const t = tasks[cur];
+  $("steps").innerHTML = tasks.map((x,i)=>{
+    const done = !!state.completed?.[i], fail = !!state.failed?.[i];
+    const cls = done ? " done" : fail ? " fail" : i===cur ? " active" : "";
+    const st = done ? "OK" : fail ? "BŁĄD" : i===cur ? "ACTIVE" : "PENDING";
+    return `<div class="step${cls}"><div class="num">${String(i+1).padStart(2,"0")}</div><div><div class="nm">${x.title}</div><div class="ds">${x.short}</div></div><div class="st">${st}</div></div>`;
+  }).join("");
+
+  $("idx").textContent = String(cur+1).padStart(2,"0");
+  $("taskTitle").textContent = t.title;
+  $("subtitle").textContent = t.subtitle;
+  $("instructions").innerHTML = t.instructions.map(x=>`<li>${x}</li>`).join("");
+  $("visual").innerHTML = `<div><div class="ico">${t.icon}</div><strong>${t.visualTitle}</strong><small>${t.visualText}</small></div>`;
+
+  $("pay").textContent = state.payment ? "OPŁACONO ✓" : "NIE OPŁACONO";
+  $("pay").style.color = state.payment ? "var(--green)" : "var(--red)";
+
+  const sigOk = !!state.completed?.[3];
+  $("signal").textContent = sigOk ? "● OK" : "● NIEAKTYWNA";
+  $("signal").className = sigOk ? "ok" : "bad";
+
+  const allDone = state.completed?.every(Boolean);
+  $("auth").disabled = !allDone || !!state.authorized;
+  $("auth").className = "auth" + (allDone && !state.authorized ? " ready" : "");
+  $("auth").textContent = state.authorized ? "PRZEJAZD AUTORYZOWANY" : allDone ? "PRZYTRZYMAJ 3 SEKUNDY — AUTORYZUJ" : "AUTORYZACJA ZABLOKOWANA";
+
+  if(state.authorized){
+    $("status").textContent = "PRZEJAZD DOZWOLONY";
+    $("status").style.color = "var(--green)";
+    $("statusSub").textContent = "ZEZWOLENIE WYDANE";
+    $("lockIcon").textContent = "🔓";
+    $("block").textContent = "● ZWOLNIONA";
+    $("block").className = "ok";
+    $("overlay").classList.add("show");
+  }else{
+    $("status").textContent = "PRZEJAZD ZABLOKOWANY";
+    $("status").style.color = "var(--red)";
+    $("statusSub").textContent = "BRAK ZEZWOLENIA NA PRZEJAZD";
+    $("lockIcon").textContent = "🔒";
+    $("block").textContent = "● AKTYWNA";
+    $("block").className = "bad";
+    $("overlay").classList.remove("show");
+  }
+
+  const entries = [
+    ["SYSTEM RCS: ONLINE","ok"],
+    ["PLC: ONLINE","ok"],
+    ["POCIĄG: NOWOŻEŃCY",""],
+    [`AKTYWNY KROK: ${String(cur+1).padStart(2,"0")}`,"warn"],
+    [state.lastAction || "OCZEKIWANIE NA DZIAŁANIE","warn"]
+  ];
+  state.completed?.forEach((v,i)=>{ if(v) entries.push([`KROK ${i+1}: ${tasks[i].title} — OK`,"ok"]); });
+  $("log").innerHTML = entries.map(([m,c])=>`<div><span class="time">${ts()}</span><span class="${c}">${m}</span></div>`).join("");
+}
+
+onValue(stateRef, snap=>{
+  $("net").textContent = "● ONLINE";
+  $("net").className = "net on";
+  state = snap.exists() ? {...initialState, ...snap.val()} : structuredClone(initialState);
+  render();
+}, err=>{
+  $("net").textContent = "● BRAK POŁĄCZENIA";
+  $("net").className = "net off";
+  console.error(err);
+});
+
+let hold = null;
+const auth = $("auth");
+const startHold = ()=>{
+  if(auth.disabled) return;
+  auth.textContent = "AUTORYZACJA…";
+  hold = setTimeout(async ()=>{
+    await update(stateRef,{authorized:true,lastAction:"ZEZWOLENIE NA PRZEJAZD WYDANE",updatedAt:Date.now()});
+  },3000);
+};
+const cancelHold = ()=>{
+  if(hold){ clearTimeout(hold); hold=null; render(); }
+};
+auth.addEventListener("pointerdown",startHold);
+auth.addEventListener("pointerup",cancelHold);
+auth.addEventListener("pointerleave",cancelHold);
+auth.addEventListener("pointercancel",cancelHold);
+
+setInterval(()=>{
+  const d=new Date();
+  $("clock").textContent=d.toLocaleTimeString("pl-PL",{hour12:false});
+  $("date").textContent=d.toLocaleDateString("pl-PL");
+},500);
+</script>
+</body>
+</html>

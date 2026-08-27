@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080b0e">
+<title>RCS Operator</title>
+<style>
+:root{--bg:#07090b;--p:#10161a;--line:#2b363e;--txt:#edf2f6;--mut:#95a0a9;--red:#ff4036;--green:#67df3f;--amber:#ffb300}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:Arial,sans-serif;padding:12px}
+.app{max-width:720px;margin:auto}.panel{background:var(--p);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:10px}
+h1{font-size:22px;margin:0}.sub{font-size:12px;color:var(--mut);margin-top:5px}.status{display:flex;justify-content:space-between;align-items:center}.online{color:var(--green)}.offline{color:var(--red)}
+.step{border:1px solid var(--line);border-radius:9px;padding:14px}.stepNo{color:var(--red);font-weight:900}.step h2{margin:7px 0 5px;font-size:20px}.instructions{color:#c9d0d5;font-size:14px;line-height:1.45}.instructions li{margin:7px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{width:100%;border:1px solid #3a464e;border-radius:9px;background:#20282d;color:white;padding:16px 10px;font-size:16px;font-weight:900;cursor:pointer}.good{background:#225f1e;border-color:#5fbd49}.bad{background:#76201b;border-color:#c33a31}.amber{background:#684900;border-color:#b98100}.danger{background:#351311;border-color:#6f2a25}.btn:disabled{opacity:.35}
+.steps{display:grid;gap:7px}.mini{display:grid;grid-template-columns:36px 1fr 65px;gap:8px;align-items:center;padding:9px;border:1px solid var(--line);border-radius:7px;font-size:12px}.mini.active{border-color:var(--red)}.mini.done{border-color:#306b2a}.mini.fail{border-color:#8b2520}.ok{color:var(--green)}.warn{color:var(--amber)}.red{color:var(--red)}
+.log{font:12px ui-monospace,Consolas,monospace;color:#bec7ce}.log div{padding:5px 0;border-bottom:1px solid #20272c}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="panel status"><div><h1>🎛 RCS — PANEL OPERATORA</h1><div class="sub">Katarzyna & Marcin</div></div><b id="net" class="offline">● ŁĄCZENIE…</b></div>
+
+  <div class="panel step">
+    <div class="stepNo" id="stepNo">KROK 01 / 06</div>
+    <h2 id="title"></h2>
+    <div class="sub" id="subtitle"></div>
+    <ul class="instructions" id="instructions"></ul>
+  </div>
+
+  <div class="grid">
+    <button class="btn bad" id="fail">✕ NIEZALICZONE</button>
+    <button class="btn good" id="pass">✓ ZALICZ I DALEJ</button>
+    <button class="btn" id="prev">← POPRZEDNI KROK</button>
+    <button class="btn" id="next">NASTĘPNY KROK →</button>
+  </div>
+
+  <div class="panel" style="margin-top:10px">
+    <div class="sub">SZYBKIE STEROWANIE</div>
+    <div class="grid" style="margin-top:10px">
+      <button class="btn amber" id="payment">🍾 POTWIERDŹ OPŁATĘ</button>
+      <button class="btn" id="clearFail">WYCZYŚĆ BŁĄD KROKU</button>
+      <button class="btn good" id="authorize">🚦 AUTORYZUJ ZDALNIE</button>
+      <button class="btn danger" id="reset">↻ RESET CAŁOŚCI</button>
+    </div>
+  </div>
+
+  <div class="panel"><div class="sub">STATUS KROKÓW</div><div class="steps" id="steps" style="margin-top:10px"></div></div>
+  <div class="panel"><div class="sub">OSTATNIE ZDARZENIE</div><div class="log" id="log"></div></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
+import { firebaseConfig, roomId } from "./config.js";
+import { tasks, initialState } from "./tasks.js";
+
+const db = getDatabase(initializeApp(firebaseConfig));
+const stateRef = ref(db, `weddingGate/${roomId}`);
+let state = structuredClone(initialState);
+const $ = id=>document.getElementById(id);
+
+function normalized(){
+  state.currentStep=Math.min(Math.max(Number(state.currentStep)||0,0),tasks.length-1);
+  state.completed=Array.from({length:tasks.length},(_,i)=>!!state.completed?.[i]);
+  state.failed=Array.from({length:tasks.length},(_,i)=>!!state.failed?.[i]);
+}
+function render(){
+  normalized();
+  const i=state.currentStep,t=tasks[i];
+  $("stepNo").textContent=`KROK ${String(i+1).padStart(2,"0")} / ${String(tasks.length).padStart(2,"0")}`;
+  $("title").textContent=t.title;
+  $("subtitle").textContent=t.subtitle;
+  $("instructions").innerHTML=t.instructions.map(x=>`<li>${x}</li>`).join("");
+  $("payment").textContent=state.payment?"🍾 OPŁATA POTWIERDZONA ✓":"🍾 POTWIERDŹ OPŁATĘ";
+  $("authorize").disabled=!state.completed.every(Boolean) || state.authorized;
+  $("authorize").textContent=state.authorized?"🚦 JUŻ AUTORYZOWANO":"🚦 AUTORYZUJ ZDALNIE";
+  $("steps").innerHTML=tasks.map((x,n)=>{
+    const cls=state.completed[n]?"done":state.failed[n]?"fail":n===i?"active":"";
+    const st=state.completed[n]?"OK":state.failed[n]?"BŁĄD":n===i?"ACTIVE":"—";
+    const col=state.completed[n]?"ok":state.failed[n]?"red":n===i?"warn":"";
+    return `<div class="mini ${cls}"><b>${String(n+1).padStart(2,"0")}</b><span>${x.title}</span><b class="${col}">${st}</b></div>`;
+  }).join("");
+  $("log").innerHTML=`<div>${new Date(state.updatedAt||Date.now()).toLocaleTimeString("pl-PL")} — ${state.lastAction||"SYSTEM GOTOWY"}</div>
+    <div>currentStep: ${state.currentStep}</div><div>payment: ${state.payment}</div><div>authorized: ${state.authorized}</div>`;
+}
+async function patch(data){ await update(stateRef,{...data,updatedAt:Date.now()}); }
+
+onValue(stateRef, async snap=>{
+  $("net").textContent="● ONLINE";$("net").className="online";
+  if(!snap.exists()){ await set(stateRef,initialState); return; }
+  state={...initialState,...snap.val()};render();
+},err=>{$("net").textContent="● BRAK POŁĄCZENIA";$("net").className="offline";console.error(err)});
+
+$("pass").onclick=async()=>{
+  normalized(); const i=state.currentStep;
+  const completed=[...state.completed]; const failed=[...state.failed];
+  completed[i]=true; failed[i]=false;
+  const data={completed,failed,lastAction:`KROK ${i+1} ZALICZONY: ${tasks[i].title}`};
+  if(i===4) data.payment=true;
+  if(i<tasks.length-1) data.currentStep=i+1;
+  await patch(data);
+};
+$("fail").onclick=async()=>{
+  normalized();const failed=[...state.failed];const completed=[...state.completed];
+  failed[state.currentStep]=true;completed[state.currentStep]=false;
+  await patch({failed,completed,lastAction:`KROK ${state.currentStep+1} NIEZALICZONY`});
+};
+$("clearFail").onclick=async()=>{
+  normalized();const failed=[...state.failed];failed[state.currentStep]=false;
+  await patch({failed,lastAction:`BŁĄD KROKU ${state.currentStep+1} WYCZYSZCZONY`});
+};
+$("prev").onclick=()=>patch({currentStep:Math.max(0,state.currentStep-1),lastAction:"OPERATOR COFNĄŁ PROCEDURĘ"});
+$("next").onclick=()=>patch({currentStep:Math.min(tasks.length-1,state.currentStep+1),lastAction:"OPERATOR ZMIENIŁ AKTYWNY KROK"});
+$("payment").onclick=()=>patch({payment:!state.payment,lastAction:state.payment?"COFNIĘTO POTWIERDZENIE OPŁATY":"OPŁATA ZA PRZEJAZD POTWIERDZONA"});
+$("authorize").onclick=async()=>{
+  if(!state.completed.every(Boolean)) return;
+  await patch({authorized:true,lastAction:"OPERATOR WYDAŁ ZEZWOLENIE NA PRZEJAZD"});
+};
+$("reset").onclick=async()=>{
+  if(confirm("Na pewno zresetować całą bramę?")) await set(stateRef,{...initialState,updatedAt:Date.now(),lastAction:"SYSTEM ZRESETOWANY"});
+};
+</script>
+</body>
+</html>

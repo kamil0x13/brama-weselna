@@ -1,0 +1,12 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "weddingGate": {
+      "km-4f8d7c2e": {
+        ".read": true,
+        ".write": true
+      }
+    }
+  }
+}
