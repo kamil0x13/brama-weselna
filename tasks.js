@@ -25,6 +25,20 @@ export const tasks = [
     ]
   },
   {
+    title: "BŁĄD RCS-24V: ROGATKA NIE WSTAJE",
+    short: "Awaria obwodu sterowania rogatką",
+    subtitle: "System wykrył brak zasilania w układzie wykonawczym.",
+    icon: "⚡",
+    visualTitle: "ROGATKA — BRAK GOTOWOŚCI",
+    visualText: "24V DC: 0.0 V • OBWÓD STERUJĄCY: PRZERWA",
+    instructions: [
+      "Mechanizm rogatki nie odpowiada.",
+      "Wykryto brak zasilania w obwodzie sterującym.",
+      "Sprawdź połączenia w szafie sterowniczej.",
+      "Przywróć prawidłowe połączenie przewodów i uruchom układ."
+    ]
+  },
+  {
     title: "TEST SYSTEMU ŁĄCZNOŚCI",
     short: "Meldunek do dyżurnego ruchu",
     subtitle: "Maszynista musi nawiązać prawidłową łączność.",
@@ -35,19 +49,6 @@ export const tasks = [
       "Stań przed dyżurnym ruchu.",
       "Powiedz: „Tu maszynista Marcin. Proszę o zgodę na przejazd w kierunku Wspólne Życie.”",
       "Operator potwierdza poprawność meldunku."
-    ]
-  },
-  {
-    title: "TEST SYGNALIZACJI",
-    short: "Próba sygnału dźwiękowego",
-    subtitle: "Wymagana próba sygnału pojazdu.",
-    icon: "📣",
-    visualTitle: "SEKWENCJA TESTOWA",
-    visualText: "KRÓTKI  •  KRÓTKI  •  DŁUGI",
-    instructions: [
-      "Podejdź do samochodu.",
-      "Wykonaj klaksonem: KRÓTKI → KRÓTKI → DŁUGI.",
-      "Inspektor sygnalizacji potwierdza wykonanie."
     ]
   },
   {
@@ -69,7 +70,7 @@ export const tasks = [
     subtitle: "Wszystkie testy muszą mieć status OK.",
     icon: "🚦",
     visualTitle: "GOTOWOŚĆ DO ODBLOKOWANIA",
-    visualText: "Po zatwierdzeniu przez operatora Marcin uruchamia przejazd.",
+    visualText: "",
     instructions: [
       "Poczekaj na potwierdzenie wszystkich podsystemów.",
       "Gdy przycisk zmieni kolor na zielony, przytrzymaj AUTORYZUJ przez 3 sekundy.",
