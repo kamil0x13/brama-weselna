@@ -116,7 +116,7 @@ function render(){
   $("pay").textContent = state.payment ? "OPŁACONO ✓" : "NIE OPŁACONO";
   $("pay").style.color = state.payment ? "var(--green)" : "var(--red)";
 
-  const sigOk = !!state.completed?.[3];
+  const sigOk = !!state.completed?.[2];
   $("signal").textContent = sigOk ? "● OK" : "● NIEAKTYWNA";
   $("signal").className = sigOk ? "ok" : "bad";
 
