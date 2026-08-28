@@ -29,7 +29,7 @@ export const tasks = [
     short: "Awaria obwodu sterowania rogatką",
     subtitle: "System wykrył brak zasilania w układzie wykonawczym.",
     icon: "⚡",
-    visualTitle: "ROGATKA — BRAK GOTOWOŚCI",
+    visualTitle: "ROGATKA - BRAK GOTOWOŚCI",
     visualText: "24V DC: 0.0 V • OBWÓD STERUJĄCY: PRZERWA",
     instructions: [
       "Mechanizm rogatki nie odpowiada.",
