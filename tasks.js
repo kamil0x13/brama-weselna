@@ -1,7 +1,7 @@
 export const tasks = [
  {
   title: "IDENTYFIKACJA MASZYNISTY",
-  short: "Weryfikacja danych Marcina",
+  short: "Weryfikacja danych",
   subtitle: "System wymaga potwierdzenia tożsamości maszynisty.",
   icon: "🪪",
   visualTitle: "WERYFIKACJA MASZYNISTY",
