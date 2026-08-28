@@ -190,14 +190,18 @@ setInterval(()=>{
 </script>
 </body>
 <style>
+/* =========================================================
+   iPad Air 11" M2 — fullscreen / landscape
+   viewport ok. 1180 x 820 CSS px
+   ========================================================= */
 
-/* iPad fullscreen */
 @media (orientation: landscape) and (min-width: 1000px) and (max-width: 1300px) {
 
   html,
   body {
     width: 100%;
     height: 100%;
+    margin: 0;
     overflow: hidden;
   }
 
@@ -205,9 +209,11 @@ setInterval(()=>{
     padding: 6px;
   }
 
+  /* CAŁA APLIKACJA */
   .app {
     width: 100%;
     max-width: none;
+
     height: calc(100dvh - 12px);
 
     display: grid;
@@ -219,71 +225,399 @@ setInterval(()=>{
     gap: 6px;
   }
 
-  .layout {
-    margin-top: 0;
-    min-height: 0;
-    height: 100%;
-  }
 
-  /* lewa kolumna */
-  .layout > section.panel {
-    height: 100%;
-  }
+  /* =======================================================
+     GÓRNY PASEK
+     ======================================================= */
 
-  /* środkowa kolumna */
-  .layout > main {
-    min-height: 0;
-    height: 100%;
-
-    display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
+  .top {
+    grid-template-columns: 1.35fr 1fr 0.45fr;
     gap: 6px;
   }
 
-  .layout > main .banner {
-    margin-bottom: 0;
+  .top > div {
+    padding: 9px 12px;
   }
+
+  .brand {
+    font-size: 19px;
+  }
+
+  .names b {
+    font-size: 20px;
+  }
+
+  .clock {
+    font-size: 19px;
+  }
+
+  .sub {
+    font-size: 9px;
+  }
+
+
+  /* =======================================================
+     GŁÓWNY UKŁAD 3 KOLUMN
+     ======================================================= */
+
+  .layout {
+    min-height: 0;
+    height: 100%;
+
+    margin-top: 0;
+
+    grid-template-columns:
+      255px
+      minmax(0, 1fr)
+      270px;
+
+    gap: 6px;
+  }
+
+
+  /* =======================================================
+     TYTUŁY PANELI
+     ======================================================= */
+
+  .title {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+
+  /* =======================================================
+     LEWA KOLUMNA — KROKI
+     ======================================================= */
+
+  .layout > section.panel {
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .steps {
+    padding: 6px;
+  }
+
+  .step {
+    grid-template-columns: 38px minmax(0, 1fr) 50px;
+
+    gap: 5px;
+
+    padding: 7px 6px;
+    margin-bottom: 5px;
+  }
+
+  .num {
+    font-size: 20px;
+  }
+
+  .nm {
+    font-size: 10px;
+  }
+
+  .ds {
+    font-size: 9px;
+  }
+
+  .st {
+    font-size: 8px;
+  }
+
+
+  /* =======================================================
+     ŚRODEK
+     ======================================================= */
+
+  .layout > main {
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+
+    display: grid;
+
+    /* czerwony status + panel zadania */
+    grid-template-rows:
+      auto
+      minmax(0, 1fr);
+
+    gap: 6px;
+  }
+
+
+  /* STATUS PRZEJAZDU */
+
+  .banner {
+    margin: 0;
+
+    padding: 10px 13px;
+  }
+
+  .banner h1 {
+    margin: 2px 0;
+
+    font-size: 23px;
+  }
+
+  .banner .lock {
+    font-size: 34px;
+  }
+
+
+  /* GŁÓWNY PANEL ZADANIA */
 
   .layout > main > .panel {
+    min-width: 0;
     min-height: 0;
     height: 100%;
+
+    display: grid;
+
+    /* tytuł "AKTUALNY KROK" + właściwa zawartość */
+    grid-template-rows:
+      auto
+      minmax(0, 1fr);
+
+    overflow: hidden;
   }
+
+
+  /* ZAWARTOŚĆ ZADANIA */
 
   .task {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+
+    padding: 10px;
+
+    display: grid;
+
+    /* nagłówek zadania + zadanie/grafika */
+    grid-template-rows:
+      auto
+      minmax(0, 1fr);
+
+    gap: 8px;
   }
+
+
+  /* NAGŁÓWEK ZADANIA */
+
+  .head {
+    gap: 9px;
+  }
+
+  .idx {
+    padding: 5px 8px;
+
+    font-size: 18px;
+  }
+
+  .task h2 {
+    margin: 0;
+
+    font-size: 19px;
+  }
+
+  .task p {
+    margin: 4px 0 0;
+
+    font-size: 11px;
+  }
+
+
+  /* ZADANIE + GRAFIKA */
 
   .taskGrid {
-    flex: 1;
+    min-width: 0;
     min-height: 0;
+    height: 100%;
+
+    margin-top: 0;
+
+    display: grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      210px;
+
+    gap: 8px;
+
+    align-items: stretch;
   }
+
+
+  /* LEWA CZĘŚĆ AKTUALNEGO ZADANIA */
+
+  .box {
+    min-width: 0;
+    min-height: 0;
+
+    height: 100%;
+
+    padding: 10px;
+
+    overflow: hidden;
+  }
+
+  .box h3 {
+    margin-bottom: 8px;
+
+    font-size: 10px;
+  }
+
+  .box ul {
+    margin-top: 4px;
+    margin-bottom: 0;
+
+    padding-left: 18px;
+  }
+
+  .box li {
+    margin: 7px 0;
+
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+
+  /* PRAWA CZĘŚĆ — GRAFIKA */
 
   .visual {
+    min-width: 0;
+    min-height: 0;
+
     height: 100%;
+
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
   }
 
-  /* prawa kolumna */
+  .visual .ico {
+    font-size: 54px;
+  }
+
+  .visual strong {
+    margin: 9px 0;
+
+    font-size: 14px;
+  }
+
+  .visual small {
+    font-size: 10px;
+  }
+
+
+  /* =======================================================
+     PRAWA KOLUMNA
+     ======================================================= */
+
   .right {
+    min-width: 0;
     min-height: 0;
     height: 100%;
+
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr);
+
+    grid-template-rows:
+      auto
+      minmax(0, 1fr);
+
     gap: 6px;
   }
 
   .right section {
+    min-height: 0;
+
     margin-top: 0 !important;
   }
 
-  .right .log {
-    height: 100%;
+  .sys {
+    padding: 5px 9px;
   }
 
-  /* dolne trzy panele */
+  .row {
+    padding: 8px 0;
+
+    font-size: 10px;
+  }
+
+  .right section:last-child {
+    display: grid;
+
+    grid-template-rows:
+      auto
+      minmax(0, 1fr);
+  }
+
+  .log {
+    min-height: 0;
+    height: 100%;
+
+    padding: 8px 9px;
+
+    font-size: 9px;
+
+    overflow: hidden;
+  }
+
+  .log div {
+    margin-bottom: 5px;
+  }
+
+
+  /* =======================================================
+     DOLNE 3 PANELE
+     ======================================================= */
+
   .bottom {
     margin-top: 0;
+
+    grid-template-columns:
+      0.9fr
+      0.9fr
+      1.2fr;
+
+    gap: 6px;
+  }
+
+  .bottom > section {
+    min-height: 0;
+
+    padding: 8px 10px;
+
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .bottom h3 {
+    margin: 0 0 5px;
+
+    font-size: 10px;
+  }
+
+  .pay {
+    font-size: 16px;
+  }
+
+  .auth {
+    padding: 10px;
+
+    font-size: 15px;
+  }
+
+  .net {
+    right: 9px;
+    bottom: 7px;
+
+    padding: 5px 8px;
+
+    font-size: 9px;
   }
 }
 </style>
